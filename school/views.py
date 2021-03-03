@@ -116,6 +116,7 @@ def create_district(request,id):
     context={"title":"Create District(s) in "+str(record.province),"form":form,}
     return render(request,'school/create.html',context)
 
+
 @permission_required('school.view_district')
 def all_districts(request):
 	records=District.objects.all().order_by('-id')
@@ -165,6 +166,7 @@ def create_school(request):
     context={"title":"Create School","form":form,}
     return render(request,'school/create.html',context)
 
+
 @permission_required('school.view_school')
 def all_schools(request):
 	level=Userlevel.objects.get(user=request.user)
@@ -177,29 +179,40 @@ def all_schools(request):
 		boundary=""
 	elif level.level==2:
 		staff=Provincialstaff.objects.get(id=level.staff)
-		records=School.objects.filter(province_id=staff.province_id).order_by('-id')
-		totalrecords=Staff.objects.filter(province_id=staff.province_id).count()
-		filtered=records.count()
-		myFilter=SchoolFilter2(request.POST,queryset=records)
-		schoolid=0
-		boundary=""
+		if staff.is_updated:
+			records=School.objects.filter(province_id=staff.province_id).order_by('-id')
+			totalrecords=Staff.objects.filter(province_id=staff.province_id).count()
+			filtered=records.count()
+			myFilter=SchoolFilter2(request.POST,queryset=records)
+			schoolid=0
+			boundary=""
+		else:
+			messages.success(request, "School Updated successfully!")
 	elif level.level==3:
 		staff=Districtstaff.objects.get(id=level.staff)
-		records=School.objects.filter(district_id=staff.district_id).order_by('-id')
-		totalrecords=Staff.objects.filter(district_id=staff.district_id).count()
-		filtered=records.count()
-		schoolid=0
-		myFilter=SchoolFilter3(request.POST,queryset=records)
-		boundary="in "+str(staff.province)
+		if staff.is_updated:
+			records=School.objects.filter(district_id=staff.district_id).order_by('-id')
+			totalrecords=Staff.objects.filter(district_id=staff.district_id).count()
+			filtered=records.count()
+			schoolid=0
+			myFilter=SchoolFilter3(request.POST,queryset=records)
+			boundary="in "+str(staff.province)
+		else:
+			messages.warning(request, "Please update your profile to proceed!")
+			return redirect('/')
 	elif level.level==4:
 		staff=Staff.objects.get(id=level.staff)
-		records=School.objects.filter(district_id=staff.district_id).order_by('-id')
-		totalrecords=Staff.objects.filter(district_id=staff.district_id).count()
-		filtered=records.count()
-		schoolrecord=School.objects.get(id=staff.school_id)
-		schoolid=schoolrecord.id
-		myFilter=SchoolFilter3(request.POST,queryset=records)
-		boundary="in "+str(staff.district)
+		if staff.is_updated:
+			records=School.objects.filter(district_id=staff.district_id).order_by('-id')
+			totalrecords=Staff.objects.filter(district_id=staff.district_id).count()
+			filtered=records.count()
+			schoolrecord=School.objects.get(id=staff.school_id)
+			schoolid=schoolrecord.id
+			myFilter=SchoolFilter3(request.POST,queryset=records)
+			boundary="in "+str(staff.district)
+		else:
+			messages.warning(request, "Please update your profile to proceed!")
+			return redirect('/')
 	else:
 		records=School.objects.none()
 		totalrecords=0
