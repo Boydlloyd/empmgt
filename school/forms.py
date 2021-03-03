@@ -28,3 +28,11 @@ class UpdateSchoolForm(forms.ModelForm):
 	class Meta:
 		model=School
 		fields=('school_code','school_name','school_address','district',)
+  
+  
+  
+class ExportSchool(forms.ModelForm):
+    class Meta:
+        model=School
+        fields=('export_to_file',)
+        labels={'export_to_file':'',}

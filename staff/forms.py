@@ -99,3 +99,11 @@ class UpdateProvincialStaffForm(forms.ModelForm):
     class Meta:
         model=Provincialstaff
         fields=('empnumber','title','fname','lname','nrc','mobile','gender','position','province')
+        
+        
+        
+class ExportStaff(forms.ModelForm):
+    class Meta:
+        model=Staff
+        fields=('export_to_file',)
+        labels={'export_to_file':'',}

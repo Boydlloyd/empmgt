@@ -41,6 +41,7 @@ class School(models.Model):
     district = models.ForeignKey(District,on_delete=models.DO_NOTHING)
     province = models.ForeignKey(Province,on_delete=models.DO_NOTHING)
     datecreated= models.DateTimeField(auto_now_add=True)
+    export_to_file=models.BooleanField(default=False)
     author = models.ForeignKey(User,on_delete=models.DO_NOTHING)
 
     def __str__(self):

@@ -10,6 +10,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 from staff.models import Userlevel,Staff,Districtstaff,Provincialstaff
 from django.forms import modelformset_factory
+import csv
+from django.http import HttpResponse
 
 
 def permission_required(perm, login_url=None, raise_exception=True):
@@ -218,12 +220,28 @@ def all_schools(request):
 		totalrecords=0
 		myFilter=SchoolFilterNone(request.POST,queryset=records)
 	records=myFilter.qs
+	filteredrecords=records
 	paginator=Paginator(records,20)
 	page_num=request.GET.get('page', 1)
 	records=paginator.get_page(page_num)
 	pagecount=int(len(list(records)))
 	counted=str(pagecount) +" out of "+str(totalrecords)+" record(s)"
-	context={"title":"All Schools "+str(boundary),"records":records,"schoolid":schoolid,"allschools":"active","counted":counted,"myFilter":myFilter,}
+	form=ExportSchool(request.POST or None)
+	if form['export_to_file'].value() == True:
+		response = HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename=StaffList.csv'
+		writer = csv.writer(response)
+		writer.writerow(['TS No.','FIRST NAME','LAST NAME','OTHER NAMES','GENDER','TITLE','NRC','CONTACT No.','EMAIL','DOB','FIRST APPOINTMENT','POSITION',
+			'ORGANIZATION', 'DISTRICT','PROVINCE','ADDRESS','STATUS','APPLICANT No.','ACTIVE','CYCLE','CREATEDBY','DATECREATED','REMARKS'])
+		if pagecount>0:
+			for row in filteredrecords:
+				write_to_file(str(request.user)+"_downloads",str(request.user)+" Exported "+str(filteredrecords.count())+" Station Staff Record(s)",row.id)
+				writer.writerow([row.tsnumber,row.fname,row.lname,row.mname,row.gender,row.title,row.nrc,row.mobile,row.email,row.birth_date,row.first_appointment,row.position,
+                     row.school,row.isconfirmed,row.empnumber,row.status,row.district,row.province,row.qualifications,row.comment,row.is_updated,row.is_active,row.datecreated,row.author])
+			return response
+		else:
+			messages.error(request, "No Records to Export!")
+	context={"title":"All Schools "+str(boundary),"records":records,"schoolid":schoolid,"allschools":"active","counted":counted,"myFilter":myFilter,"form1":form}
 	return render(request,'school/allschools.html',context)
 
 
