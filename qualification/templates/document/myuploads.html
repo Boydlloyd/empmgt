@@ -1,0 +1,35 @@
+{% extends 'template.html' %}
+{% block content %}
+<a href="{% url 'myqualifications' %}" class="btn btn-default btn-sm" style="width:6%"><i class="glyphicon glyphicon-backward"></i>Back</a>
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Document</th>
+        <th>Datecreated</th> 
+        <th>Status</th>
+        <th>Action</th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.doctitle}}</td>
+            <td>{{record.datecreated}}</td>
+            <td>{{record.status}}</td>
+            <td>
+                {% if record.isimage %}
+                <a href="{{record.documentupload.url}}">view<i class="glyphicon glyphicon-picture"></i></a>
+                {% else %}
+                <a href="{{record.documentupload.url}}">view<i class="glyphicon glyphicon-file"></i></a>
+                {% endif %}
+                {% if perms.qualification.change_mydocument %} {% if myrecord.status == "Updated" %}
+                <a href="{% url 'updatemydocument' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}{% endif %}
+        
+                {% if perms.qualification.delete_mydocument %} {% if myrecord.status == "Updated" %}
+                <a href="{% url 'deletemyupload' id=record.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this uploded document?')"><i class="glyphicon glyphicon-trash"></i>Delete</a>
+                {% endif %} {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

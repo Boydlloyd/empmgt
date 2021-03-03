@@ -1,0 +1,33 @@
+{% extends 'template.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include 'phone/setuptab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Format</th>
+        <th>Provider</th>
+        <th>Length</th>
+        <th>Datecreated</th>
+        <th>
+            {% if perms.account.add_mobileformat %}
+            <a class="btn btn-default btn-sm" href="{% url 'createmobileformat' %}"><strong> New Format</strong></a>
+            {% else %}Action{% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+
+            <td>{{forloop.counter}}</td>
+            <td>{{record.mformat}}</td>
+            <td>{{record.provider}}</td>
+            <td>{{record.length}}</td>
+            <td>{{record.datecreated}}</td>
+            <td>
+            {% if perms.account.change_mobileformat %}
+            <a href="{% url 'updateformat' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+            {% endif %}         
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

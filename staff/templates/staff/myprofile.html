@@ -1,0 +1,89 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'staff/profiletab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th></th>
+        <th>My IDs</th>
+        <th>My Details</th>
+        {% if level == 2 %}{% else %}<th>Station</th>{% endif %}
+        <th>Appointment</th>
+        <th>Action</th>
+    </thead>
+        <tr>
+            <td style="width: 15%;">
+               
+                <a href="{{profile.profilepic.url}}"><img src="{{profile.profilepic.url}}" style="width:80%;"></a>
+            
+                <p>
+                {% if perms.staff.change_myprofile %}
+                <a href="{% url 'updatemyphoto' %}" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-upload"></i>Update Photo</a>
+                {% endif %}
+                </p>
+            </td>
+            <td>
+                <p><b>Employee No.:</b> {{profile.empnumber}}</p>
+                {% if level == 4 %}<p><b>TS No.:</b> {{profile.tsnumber}}</p>{% endif %}
+                <p><b>NRC No.:</b> {{profile.nrc}}</p>   
+                <p><b>Phone:</b> {{profile.mobile}}</p>  
+                <p><b>E-mail:</b> {{profile.email}}</p>   
+            </td>
+            <td>
+                <p><b>Title:</b> {{profile.title}} </p>
+                <p><b>First Name:</b> {{profile.fname}} </p>
+                <p><b>Last Name:</b> {{profile.lname}}</p>
+                <p>{% if profile.mname == "" %} {% else %} <b>Middle Name: </b> {{profile.mname}} {% endif %} </p>
+                <p><b>Gender: </b> {% if profile.gender == 'M' %}Male{% else %}Female{% endif %}</p>
+                <p><b>DOB: </b> {{profile.birth_date}}</p>
+            </td>
+
+                {% if level == 2 %}
+                {% elif level == 3 %}
+            <td>
+                <p><b>District:</b> {{profile.district}}</p>
+                <p><b>Province:</b> {{profile.province}}</p>
+            </td>
+            {% else %}
+            <td>
+                <p><b>School:</b>{{profile.school}}</p>
+                <p><b>District:</b> {{profile.district}}</p>
+                <p><b>Province:</b> {{profile.province}}</p>
+            </td>
+                {% endif %}
+            <td>
+                {% if level == 2 %}<p><b>Province:</b> {{profile.province}}</p>{% endif %}
+                <p><b>Position:</b> {{profile.position}}</p>
+                <p><b>DFA:</b> {{profile.first_appointment}}</p>
+                <p><b>Status:</b> {{profile.status}}</p>
+                <p><b>Confirmed:</b> {% if profile.isconfirmed %}<a class="btn btn-success btn-sm">YES</a>{% else %}<a class="btn btn-danger btn-sm">NO</a>{% endif %}</p>
+            </td>
+            <td>
+               
+                {% if perms.staff.change_myprofile %}{% if not profile.is_updated and profile.status == "Registered" %}
+                <p><a href="{% url 'updatemybioprofile' %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Update</a></p>
+                {% endif %}{% endif %}
+
+                
+                {% if perms.staff.change_myprofile %}{% if profile.is_updated %}{% if profile.status == "Updated" %}
+                <p><a href="{% url 'updatemybioprofile' %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a></p>
+                {% endif %}{% endif %}{% endif %}
+                
+            
+                {% if level == 4 %}
+                {% if perms.staff.change_myprofile %}{% if profile.status == "Updated" or profile.status == "Disapproved" %}
+                <p><a href="{% url 'initializemyprofile' %}" class="btn btn-default btn-sm" onclick="return confirm('This Action will initialize your profile to Registration Status?')"><i class="glyphicon glyphicon-refresh"></i>Initialize</a></p>
+                {% endif %}{% endif %}
+
+                {% if profile.is_updated %} {% if profile.status == "Updated" %} {% if profile.qualifications > 0 %}
+                <p><a href="{% url 'submitmyinfo' %}" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-send"></i>Submit</a></p>
+                {% endif %}{% endif %}{% endif %}
+
+                {% if profile.status == "Pending" %}
+                <p><a href="{% url 'cancelmysubmission' %}" style="color: red;" onclick="return confirm('Cancel Submission?')"><i class="glyphicon glyphicon-remove"></i>Cancel Submission</a></p>
+                {% endif %}
+               
+                {% endif %}
+            </td>
+        </tr> 
+</table>
+{% endblock %}

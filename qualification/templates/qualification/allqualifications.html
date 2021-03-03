@@ -1,0 +1,29 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'qualification/qualificationtab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Staff</th>
+        <th>Category</th>
+        <th>Qualification</th>
+        <th>Institution</th> 
+        <th>Duration</th> 
+        <th>Datecreated</th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.staff}}</td>
+            <td>{{record.category}}</td>
+            <td>{{record.level}} {{record.field}}</td>
+            <td>{{record.institute}}</td>
+            <td>
+                <p><b>From:</b>  {{record.date_started}}</p>
+                <p><b>To:</b>{{record.date_completed}}</p>
+            </td>
+            <td>{{record.datecreated}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

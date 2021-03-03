@@ -1,0 +1,73 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'staff/profiletab.html' %}
+
+<table class="table table-striped table-hover">
+  <thead>
+     <th>#</th>
+     <th>Document</th>
+     <th>Description</th>
+     <th>Action</th>
+ </thead>
+ {% for record in mainrecords %}
+     <tr>
+         <td>{{forloop.counter}}</td>
+         <td>{{record.docttype}}</td>
+         <td>{{record.description}}</td>
+         <td>
+          {% if perms.qualification.add_mydocument %} {% if myrecord.status == "Updated" %}
+          <a class="btn btn-link btn-sm" href="{% url 'uploadmaindocument' id=record.id %}"><strong>Attach Copy<i class="glyphicon glyphicon-file"></i></strong></a>
+          {% endif %}{% endif %}
+         </td>
+     </tr>
+ {% endfor %}
+</table>
+<table class="table table-striped table-hover">
+     <thead>
+        <th>MY UPLOADS ({{myrecord}})</th>
+    </thead>
+ <tr>
+<td>
+
+      {% if count > 0 %}
+      ===================================QUALIFICATION DOCUMENTS ({{count}})========================================
+      {% endif %}
+
+  <div class="row row-cols-3">
+    {% for record in records.object_list %}
+    <div class="col">
+        {% if record.isimage %}
+        <p>{{forloop.counter}}. {{record.qualification}}<a href="{{record.documentupload.url}}"> View {{record.doctitle}} <i class="glyphicon glyphicon-picture"></i></a></p>
+        {% else %}
+        <p>{{forloop.counter}}. {{record.qualification}}<a href="{{record.documentupload.url}}"> Download {{record.doctitle}} <i class="glyphicon glyphicon-file"></i></a></p>
+        {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+      {% if maincount > 0 %}
+      =======================================MAIN DOCUMENTS ({{maincount}})=============================================
+      {% endif %}
+  <div class="row row-cols-3">
+    {% for record in myuploads %}
+    <div class="col">
+        {% if record.isimage %}
+        {{forloop.counter}}. {{record.document}}<a href="{{record.documentupload.url}}"> View</a>
+        <a href="{{record.documentupload.url}}">{{record.doctitle}}<i class="glyphicon glyphicon-picture"></i></a>
+        {% else %}
+        <p>{{forloop.counter}}. {{record.document}}<a href="{{record.documentupload.url}}"> Download {{record.doctitle}}<i class="glyphicon glyphicon-file"></i></a>
+        {% endif %}
+        
+        {% if perms.qualification.delete_mydocument %} {% if myrecord.status == "Updated" %}
+        <a href="{% url 'deletemymainupload' id=record.id %}" class="btn btn-link btn-sm"  style="color: red;" onclick="return confirm('Delete this uploded document?')"><i class="glyphicon glyphicon-trash"></i> <strong>Delete</strong></a>
+        {% endif %} {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</td>
+</tr>
+</table>
+
+{% endblock %}
+
+
+

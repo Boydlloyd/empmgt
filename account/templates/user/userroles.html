@@ -1,0 +1,33 @@
+{% extends 'template.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include 'user/usertab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Role</th>
+        <th>Action
+            {% if perms.auth.add_group %}
+            <a class="btn btn-default btn-sm" href="{% url 'createrole' %}"><strong> New Role</strong></a>
+            {% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+
+            <td>{{forloop.counter}}</td>
+            <td>{{record.name}}</td>
+            <td>
+            {% if perms.auth.change_group %}
+            <a href="{% url 'updaterole' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+            {% endif %}         
+            {% if perms.auth.view_permission %}
+            <a href="{% url 'rolepermissions' id=record.id %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-eye-open"></i>Permissions</a>
+            {% endif %}
+            {% if perms.auth.view_permission %}
+            <a href="{% url 'managepermissions' id=record.id %}" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-cog"></i>Manage</a>
+            {% endif %}  
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

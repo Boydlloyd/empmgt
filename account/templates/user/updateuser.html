@@ -1,0 +1,44 @@
+{% extends 'actiontemplate.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<div class="myForm">
+
+	<form method="POST" action="{% url 'updateuser' record.id %}">
+		<h2>{{title}}</h2>
+		{% csrf_token %}
+			{{form.username|as_crispy_field}}
+			<label>First Name*</label><br>
+			<input type="text" name="fname" required="true" value="{{record.first_name}}" class="form-control" placeholder="First Name"><br>
+			<label>Last Name*</label><br>
+			<input type="text" name="lname" required="true" value="{{record.last_name}}" class="form-control" placeholder="Last Name">
+			<label>Email</label><br>
+			<input type="text" name="email" class="form-control" value="{{record.email}}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email (Optional)"><br>
+
+			<label>User Role</label><br>
+			<select name="role" class="form-control">
+				<option value="{{rol}}">{{rol}}</option>
+				{% for role in roles %}
+				<option value="{{role.name}}">{{role.name}}</option>
+				{% endfor %}
+			</select>
+			<br>
+			<label>Active</label>
+			{% if record.is_active %}
+			<input type="checkbox" name="active"  checked="checked" value="1">
+			{% else %}
+			<input type="checkbox" name="active" value="0">
+			{% endif %}
+			<br>
+
+			<br><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 <!--<img src="/static/img/driver.png" style="width: 100%">-->
+		
+		<a href="{% url 'allusers' %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-backward"></i>Back</a>
+		<input type="submit" value="Done" class="btn btn-success btn-sm">
+		
+	</form>
+</div>
+{% endblock %}

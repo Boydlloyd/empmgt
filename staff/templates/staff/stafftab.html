@@ -1,0 +1,38 @@
+  <ul class="nav nav-tabs" style="background-color: lightblue;font-size: 1.2em">
+    {% if perms.staff.view_staff %}
+    <li class="{{allstaff}}"><a data-toggle="tab" href="{% url 'allstaff' %}">Station Staff
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.staff.view_staff %}
+    <li class="{{unapprovedstaff}}"><a data-toggle="tab" href="{% url 'unapprovedstaff' %}">Approve Station Staff
+    	<i class="glyphicon glyphicon-text-width"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.staff.view_districtstaff %}
+    <li class="{{districtstaff}}"><a data-toggle="tab" href="{% url 'districtstaff' %}">District Staff
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.staff.view_provincialstaff %}
+    <li class="{{provincialstaff}}"><a data-toggle="tab" href="{% url 'provincialstaff' %}">Provincial Staff
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.staff.view_position %}
+    <li class="{{allpositions}}"><a data-toggle="tab" href="{% url 'allpositions' %}">Positions
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.staff.view_title %}
+    <li class="{{alltitles}}"><a data-toggle="tab" href="{% url 'alltitles' %}">Titles
+    	<i class="glyphicon glyphicon-cog"></i></a>
+    </li>
+    {% endif %}
+
+  </ul>

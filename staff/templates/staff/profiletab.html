@@ -1,0 +1,20 @@
+  <ul class="nav nav-tabs" style="background-color: #00FF99;font-size: 1.2em">
+    {% if perms.staff.view_myprofile %}
+    <li class="{{myprofile}}"><a data-toggle="tab" href="{% url 'myprofile' %}">My Details
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.qualification.view_myqualification %}
+    <li class="{{myqualifications}}"><a data-toggle="tab" href="{% url 'myqualifications' %}">Qualifications
+    	<i class="glyphicon glyphicon-education"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.qualification.view_mydocument %}
+    <li class="{{mydocuments}}"><a data-toggle="tab" href="{% url 'mydocuments' %}">Documents
+    	<i class="glyphicon glyphicon-folder-open"></i></a>
+    </li>
+    {% endif %}
+
+  </ul>

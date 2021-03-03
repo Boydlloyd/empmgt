@@ -1,0 +1,37 @@
+{% extends 'actiontemplate.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<div class="myForm">
+
+	<form method="POST">
+		<h2>{{title}}</h2>
+		{% csrf_token %}	
+		{{form|crispy}}
+		<fieldset>
+			<input id="male" type="radio" name="gender" value="M" required="true">
+			<label for="dollar">MALE</label>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id="female" type="radio" name="gender" value="F" required="true">
+			<label for="kwacha">FEMALE</label>
+		</fieldset>
+        {% if level == 1 %}
+        <label>District</label><br>
+			<select name="province" class="form-control" required="true">
+				<option value="">Province</option>
+				{% for province in provinces %}
+				<option value="{{province.id}}">{{province.province}}</option>
+				{% endfor %}
+			</select>
+			{% endif %}
+
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 <!--<img src="/static/img/driver.png" style="width: 100%">-->
+		
+		<a href="{% url 'provincialstaff' %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-backward"></i>Back</a>
+		<input type="submit" value="Done" class="btn btn-success btn-sm">
+		
+	</form>
+</div>
+{% endblock %}

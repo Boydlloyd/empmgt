@@ -1,0 +1,73 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'staff/stafftab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Photo</th>
+        <th>Staff IDs</th>
+        <th>Staff Details</th>
+        <th>Appointment</th>
+        <th>{% if perms.staff.add_staff %}
+            <a class="btn btn-default btn-sm" href="{% url 'createstaff' %}"><strong>New Station Staff<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% else %}Action{% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td style="width: 15%;">
+                {% if record.profilepic == "profile/profile.jpg" %}
+                <a href="{{record.profilepic.url}}"><img src="{{record.profilepic.url}}" style="width:30%;"></a>
+                {% else %}
+                <a href="{{record.profilepic.url}}"><img src="{{record.profilepic.url}}" style="width:50%;"></a>
+                {% endif %}
+            
+                {% if perms.staff.change_staff %}
+                <form method="GET" action="{% url 'updatestaffphoto' id=record.id %}">
+                    {% csrf_token %}
+                <button class="btn btn-link btn-sm"><strong>Update Photo<i class="glyphicon glyphicon-upload"></i></strong></button>
+                </form>
+                {% endif %}
+            </td>
+            <td>
+                <p><b>Emp No.:</b> {{record.empnumber}}</p>
+                <p><b>Phone:</b> {{record.mobile}}</p>  
+                <p><b>E-mail:</b> {{record.email}}</p> 
+            </p> 
+            </td>
+            <td>
+                <p><b>First Name:</b> {{record.fname}} </p>
+                <p><b>Last Name:</b> {{record.lname}}</p>
+                <p>{% if record.mname == "" %} {% else %} <b>Middle Name: </b> {{record.mname}} {% endif %} </p>
+                <p><b>Gender: </b> {% if record.gender == 'M' %}Male{% else %}Female{% endif %}</p>
+            </td>
+            <td>
+                <p><b>District:</b> {{record.district}}</p>
+                <p><b>Status:</b> {% if not record.status == "Disapproved" %} {{record.status}} {% else %} {{record.status}} <br/> <label style="color: red;">{{record.comment}} </label> {% endif %} </p>
+                <p><b>Confirmed:</b> {% if record.isconfirmed %}<a class="btn btn-success btn-sm">YES</a>{% else %}<a class="btn btn-danger btn-sm">NO</a>{% endif %}</p>
+            </td>
+            <td>
+            <div>
+                {% if perms.staff.change_staff %} {% if record.status == "Registered" %}
+                <a href="{% url 'updatestaffbio' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}{% endif %}
+            </div>
+            <div>
+                {% if perms.staff.change_staff %} {% if record.status == "Approved" or record.status == "Disapproved" %}
+                <a href="{% url 'initializestaff' id=record.id %}" class="btn btn-default btn-sm" onclick="return confirm('Initialize Staff with NRC {{record.nrc}}')"><i class="glyphicon glyphicon-refresh"></i>Initialize</a>
+                {% endif %}{% endif %}
+            </div>
+            <div>
+                {% if perms.staff.view_staff %}
+                <a href="{% url 'staffprofile' id=record.id %}" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-eye-open"></i>View Details</a>
+                {% endif %}
+            </div>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+
+

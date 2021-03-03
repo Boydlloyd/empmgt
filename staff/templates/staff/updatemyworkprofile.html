@@ -1,0 +1,26 @@
+{% extends 'actiontemplate.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="myForm">
+    <h2>{{title}}</h2>
+    {% include 'staff/updatemyprofiletab.html' %}
+	<form method="POST" class="aligcenter">
+		{% csrf_token %}
+        {{form|crispy}}
+        {% if not record.is_updated %}
+        <label>School</label><br>
+			<select name="school" class="form-control" required="true">
+				<option value="">School</option>
+				{% for school in schools %}
+				<option value="{{school.id}}">{{school.school_name}}</option>
+				{% endfor %}
+			</select>
+		{% endif %}
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="{% url 'myprofile' %}" class="btn btn-secondary btn-sm">Back</a>	
+		<input type="submit" value="Done" class="btn btn-success btn-sm">
+	</form>
+</div>
+{% endblock %}

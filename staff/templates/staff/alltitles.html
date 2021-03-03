@@ -1,0 +1,28 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'staff/stafftab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Title</th>
+        <th>Datecreated</th>
+        <th>
+            {% if perms.staff.add_title %}
+            <a class="btn btn-default btn-sm" href="{% url 'createtitle' %}"><strong> New Title<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.title}}</td>
+            <td>{{record.datecreated}}</td>
+            <td>
+                {% if perms.staff.change_title %}
+                <a href="{% url 'updatetitle' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

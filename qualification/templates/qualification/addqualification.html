@@ -1,0 +1,19 @@
+{% extends 'actiontemplate.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="myForm">
+	<form method="POST" class="aligcenter">
+		<h2>{{title}}</h2>
+		{% csrf_token %}
+		{{form|crispy}}
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{% if title == "Add Qualification" %}
+		<a href="{% url 'myqualifications' %}" class="btn btn-secondary btn-sm">Back</a>
+		{% else %}	
+		<a href="{% url 'staffqualifications' empnumber=staff.empnumber id=staff.id %}" class="btn btn-secondary btn-sm">Back</a>
+		{% endif %}
+		<input type="submit" value="Done" class="btn btn-success btn-sm">
+	</form>
+</div>
+{% endblock %}

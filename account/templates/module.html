@@ -1,0 +1,16 @@
+{% extends 'template.html' %}
+{% block content %}
+{% if title == 'Members of Staff' %}
+	{% include 'staff/stafftab.html' %}
+{% elif title == 'Schools' %}
+	{% include 'school/schooltab.html' %}
+{% elif title == 'Qualifications' %}
+	{% include 'qualification/qualificationtab.html' %}
+{% elif title == 'Users' %}
+	{% include 'user/usertab.html' %}
+{% elif title == 'Setup' %}
+	{% include 'phone/setuptab.html' %}
+{% else %}
+{% endif %}
+{% endblock %}
+

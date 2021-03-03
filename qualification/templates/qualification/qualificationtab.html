@@ -1,0 +1,26 @@
+  <ul class="nav nav-tabs" style="background-color: lightblue;font-size: 1.2em">
+    {% if perms.qualification.view_qualification %}
+    <li class="{{allqualifications}}"><a data-toggle="tab" href="{% url 'allqualifications' %}">All Qualifications
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.qualification.view_category %}
+    <li class="{{allcategories}}"><a data-toggle="tab" href="{% url 'allcategories' %}">Study Category
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.qualification.view_categorylevel %}
+    <li class="{{categorylevels}}"><a data-toggle="tab" href="{% url 'categorylevels' %}">Qualification Level
+    	<i class="glyphicon glyphicon-cog"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.qualification.view_maindocument %}
+    <li class="{{allmaindocuments}}"><a data-toggle="tab" href="{% url 'allmaindocuments' %}">Main Documents
+    	<i class="glyphicon glyphicon-cog"></i></a>
+    </li>
+    {% endif %}
+
+  </ul>

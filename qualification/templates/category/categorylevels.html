@@ -1,0 +1,34 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'qualification/qualificationtab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Level</th>
+        <th>Datecreated</th>
+        <th>{% if perms.qualification.add_categorylevel %}
+            <a class="btn btn-default btn-sm" href="{% url 'createcategorylevel' %}"><strong>New Level<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% else %}
+            Action
+            {% endif %}
+        </th>
+    </thead>
+    {% for record in records %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.level}}</td>
+            <td>{{record.datecreated}}</td>
+            <td>
+                {% if perms.qualification.change_categorylevel %}
+                <a href="{% url 'updatedistrict' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}
+
+                {% if perms.qualification.delete_categorylevel %}
+                <a href="{% url 'deletecategorylevel' id=record.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this uploded document?')"><i class="glyphicon glyphicon-trash"></i>Delete</a>
+                {% endif %}
+                
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

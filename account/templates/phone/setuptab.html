@@ -1,0 +1,21 @@
+  <ul class="nav nav-tabs" style="background-color: lightblue;font-size: 1.2em">
+    {% if perms.account.view_mobileformat %}
+    <li class="{{phonesettings}}"><a data-toggle="tab" href="{% url 'phonesettings' %}">Mobile Formats
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.account.view_serviceprovider %}
+    <li class="{{serviceproviders}}"><a data-toggle="tab" href="{% url 'serviceproviders' %}">Service Providers
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+    {% if request.user.is_staff %}
+    <li><a data-toggle="tab" href="http://localhost:8000/admin/">Backend
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+
+  </ul>

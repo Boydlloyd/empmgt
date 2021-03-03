@@ -1,0 +1,14 @@
+{% extends 'template.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<a href="{% url 'allusers' %}" class="btn btn-default btn-sm" style="width:6%"><i class="glyphicon glyphicon-backward"></i>Back</a>
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>Activity</th>
+    </thead>
+        <tr>
+            <td>{{file_content}}</td>
+        </tr>
+</table>
+
+{% endblock %}

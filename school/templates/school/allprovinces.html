@@ -1,0 +1,36 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'school/schooltab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Province</th>
+        <th>Districts</th>   
+        <th>Schools</th>
+        <th>Number of Staff</th>
+        <th>
+            {% if perms.school.add_province %}
+            <a class="btn btn-default btn-sm" href="{% url 'createprovince' %}"><strong> New Province<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.province}}</td>
+            <td>{{record.districtnumber}}</td>
+            <td>{{record.schoolnumber}}</td>
+            <td>{{record.staffnumber}}</td>
+            <td>
+                {% if perms.school.change_province %}
+                <a href="{% url 'updateprovince' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}
+
+                {% if perms.school.add_province %}
+                <a class="btn btn-default btn-sm" href="{% url 'createdistrict' id=record.id %}"><strong>Add District<i class="glyphicon glyphicon-plus"></i></strong></a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

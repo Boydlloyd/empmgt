@@ -1,0 +1,20 @@
+  <ul class="nav nav-tabs" style="background-color: lightblue;font-size: 1.2em">
+    {% if perms.auth.view_user %}
+    <li class="{{allusers}}"><a data-toggle="tab" href="{% url 'allusers' %}">All Users
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.auth.view_group %}
+    <li class="{{userroles}}"><a data-toggle="tab" href="{% url 'userroles' %}">User Roles
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.auth.view_permission %}
+    <li class="{{userpermissions}}"><a data-toggle="tab" href="{% url 'userpermissions' %}">Permissions
+    	<i class="glyphicon glyphicon-cog"></i></a>
+    </li>
+    {% endif %}
+
+  </ul>

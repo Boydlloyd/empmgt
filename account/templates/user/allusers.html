@@ -1,0 +1,59 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'user/usertab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>   
+        <th>Datecreated</th>
+        <th>Last Login</th>
+        <th>Status</th>
+        <th>
+            {% if perms.auth.add_user %}
+            <a class="btn btn-default btn-sm" href="{% url 'createuser' %}"><strong> New User<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+
+        {% if record.is_active %}
+        <tr>
+        {% else %}
+        <tr style="background-color: lightsalmon">
+        {% endif %}
+            <td>{{forloop.counter}}</td>
+            <td>{{record.username}}</td>
+            <td>{{record.first_name}}  {{record.last_name}}</td>
+            <td>{{record.email}}</td>
+            <td>{{record.date_joined}}</td>
+            <td>{{record.last_login}}</td>
+            <td>
+                {% if record.is_active %}
+                Active
+                {% else %}
+                Inactive
+                {% endif %}         
+            </td>
+            <td>
+                {% if perms.auth.change_user %}
+                <a href="{% url 'edituser' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}
+
+                {% if perms.account.view_userhistory %}
+                <a href="{% url 'useraudit' id=record.id %}" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-eye-close"></i>Audit</a>
+                {% endif %}
+
+                {% if perms.auth.change_user %}
+                <a href="{% url 'resetuserpassword' id=record.id %}" class="btn btn-default btn-sm" onclick="return confirm('Reset {{record.first_name}}s password to Default?')"><i class="glyphicon glyphicon-refresh"></i>Reset</a>
+                {% endif %}
+
+                {% if perms.account.view_useractivity %} {% if record.last_login %}
+                <a href="{% url 'useractivity' id=record.id %}" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-eye-open"></i>Activity</a>
+                {% endif %} {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

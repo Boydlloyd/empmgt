@@ -1,0 +1,19 @@
+  <ul class="nav nav-tabs" style="background-color: lightblue;font-size: 1.2em">
+    {% if perms.school.view_school %}
+    <li class="{{allschools}}"><a data-toggle="tab" href="{% url 'allschools' %}">All Schools
+    	<i class="glyphicon glyphicon-asterisk"></i></a>
+    </li>
+    {% endif %}
+    {% if perms.school.view_district %}
+    <li class="{{alldistricts}}"><a data-toggle="tab" href="{% url 'alldistricts' %}">Districts
+        <i class="glyphicon glyphicon-tasks"></i></a>
+    </li>
+    {% endif %}
+
+    {% if perms.school.view_province %}
+    <li class="{{allprovinces}}"><a data-toggle="tab" href="{% url 'allprovinces' %}">Provinces
+    	<i class="glyphicon glyphicon-cog"></i></a>
+    </li>
+    {% endif %}
+
+  </ul>

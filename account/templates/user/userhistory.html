@@ -1,0 +1,41 @@
+{% extends 'template.html' %}
+{% block content %}
+<a href="{% url 'allusers' %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-backward"></i>Back</a>
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>   
+        <th>Role</th>
+        <th>Date Joined</th>
+        <th>Last Login</th>
+        <th>Status</th>
+        <th>Author</th>
+        <th>Datecreated</th>
+    </thead>
+    {% for record in records.object_list %}
+
+        {% if record.is_active %}
+        <tr>
+        {% else %}
+        <tr style="background-color: lightsalmon">
+        {% endif %}
+            <td>{{forloop.counter}}</td>
+            <td>{{record.fname}} {{record.lname}}</td>
+            <td>{{record.email}}</td>
+            <td>{{record.role}}</td>
+            <td>{{record.date_joined}}</td>
+            <td>{{record.last_login}}</td>
+            <td>
+                {% if record.is_active %}
+                Active
+                {% else %}
+                Inactive
+                {% endif %}         
+            </td>
+            <td>{{record.author}}</td>
+            <td>{{record.datecreated}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

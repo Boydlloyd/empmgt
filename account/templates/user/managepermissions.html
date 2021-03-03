@@ -1,0 +1,73 @@
+{% extends 'template.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<a href="{% url 'userroles' %}" class="btn btn-default btn-sm" style="width:6%"><i class="glyphicon glyphicon-backward">Back</i></a>
+
+<form method="GET" action="{% url 'managepermissions' id=roleid %}" style="display: {{addperm}}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col">
+            <select name="search" class="form-control">
+                <option value="">Filter</option>
+                {% for app in apps %}
+                <option value="{{app.0}}">{{app.0}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
+<form method="GET" style="display: {{removeperm}}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col">
+            <select name="search" class="form-control" onclick="{% url 'rolepermissions' id=roleid %}">
+                <option value="">Filter</option>
+                {% for app in apps %}
+                <option value="{{app.0}}">{{app.0}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
+    <table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Content</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>
+            
+            <form method="POST" action="{% url 'addpermission' %}">
+                {% csrf_token %}
+                {% if perms.auth.add_permission %}
+             <input type="hidden" name="roleid" value="{{roleid}}">
+            <button class="btn btn-success btn-sm">Add<i class="glyphicon glyphicon-plus"></i></button>
+            {% endif %}
+          </th>  
+    </thead>
+    {% for record in records %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{record.2}} | {{record.3}}</td>
+            <td>{{record.4}}</td>
+            <td>{{record.5}}</td>
+            <td>
+                {% if not record.4 == "delete_logentry" %}
+                {% if perms.auth.add_permission %}
+                <input type="checkbox" name="id" value="{{record.0}}">
+                {% endif %}{% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </form>
+</table>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'template.html' %}
+{% block content %}
+{% include 'staff/stafftab.html' %}
+	<table class="table table-striped table-hover">
+     <thead>
+        <th>#</th>
+        <th>Photo</th>
+        <th>Staff IDs</th>
+        <th>Staff Details</th>
+        <th>Station</th>
+        <th>Appointment</th>
+        <th>{% if perms.staff.add_staff %}
+            <a class="btn btn-default btn-sm" href="{% url 'createstaff' %}"><strong>New Staff<i class="glyphicon glyphicon-plus"></i></strong></a>
+            {% else %}Action{% endif %}
+        </th>
+    </thead>
+    {% for record in records.object_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td style="width: 15%;">
+                {% if record.staffphoto == "photos/profile.jpg" %}
+                <a href="{{record.profilepic.url}}"><img src="{{record.profilepic.url}}" style="width:50%; height:10%"></a>
+                {% else %}
+                <a href="{{record.profilepic.url}}"><img src="{{record.profilepic.url}}" style="width:80%;"></a>
+                {% endif %}
+                <p>
+
+                {% if perms.staff.change_staff %}
+                <form method="GET" action="{% url 'updatestaffphoto' id=record.id %}">
+                    {% csrf_token %}
+                <button class="btn btn-link btn-sm"><strong>Update Photo<i class="glyphicon glyphicon-upload"></i></strong></button>
+                </form>
+                {% endif %}
+                </p>
+            </td>
+            <td>
+                <p><b>Employee No.:</b> {{record.empnumber}}</p>
+                <p><b>TS No.:</b> {{record.tsnumber}}</p>
+                <p><b>NRC No.:</b> {{record.nrc}}</p>  
+                <p><b>Phone:</b> {{record.mobile}}</p>  
+                <p><b>E-mail:</b> {{record.email}}</p> 
+            </p> 
+            </td>
+            <td>
+                <p><b>Title:</b> {{record.title}} </p>
+                <p><b>First Name:</b> {{record.fname}} </p>
+                <p><b>Last Name:</b> {{record.lname}}</p>
+                <p>{% if record.mname == "" %} {% else %} <b>Middle Name: </b> {{record.mname}} {% endif %} </p>
+                <p><b>Gender: </b> {% if record.gender == 'M' %}Male{% else %}Female{% endif %}</p>
+                <p><b>DOB: </b> {{record.birth_date}}</p>
+            </td>
+            <td>
+                <p><b>School:</b>{{record.school}}</p>
+                <p><b>District:</b> {{record.district}}</p>
+                <p><b>Province:</b> {{record.province}}</p>
+            </td>
+            <td>
+                <p><b>Position:</b> {{record.position}}</p>
+                <p><b>DFA:</b> {{record.first_appointment}}</p>
+                <p><b>Status:</b> {{record.status}}</p>
+                <p><b>Confirmed:</b> {% if record.isconfirmed %}<a class="btn btn-success btn-sm">YES</a>{% else %}<a class="btn btn-danger btn-sm">NO</a>{% endif %}</p>
+            </td>
+            <td>
+                {% if perms.staff.change_staff %} {% if record.status == "Registered" or record.status == "Updated" %}
+                <a href="{% url 'updatestaffbio' id=record.id %}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                {% endif %}{% endif %}
+
+                {% if perms.staff.change_staff %} {% if record.status == "Registered" %}
+                <a href="{% url 'initializestaff' id=record.id %}" class="btn btn-default btn-sm" onclick="return confirm('Initialize Staff with NRC {{record.nrc}}')"><i class="glyphicon glyphicon-refresh"></i>Initialize</a>
+                {% endif %}{% endif %}
+
+                {% if perms.qualification.view_qualification %} {% if record.status == "Approved" or record.status == "DiaApproved" %}
+                <a href="{% url 'staffqualifications' empnumber=record.empnumber id=record.id %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-eye-open"></i>Qualifications</a>
+                {% endif %}{% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

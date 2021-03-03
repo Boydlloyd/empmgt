@@ -1,0 +1,92 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">EMS
+  </a>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    {% if request.user.is_authenticated %}
+    <ul class="navbar-nav mr-auto">
+      <h4>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">
+            <i class="glyphicon glyphicon-home"></i>
+            <br/>Home</a>
+        </li>
+      </h4>
+        {% include 'blank.html' %}
+
+        <h4>
+        <li class="nav-item active">
+        {% if perms.staff.view_staffmodule %}    
+          <a class="nav-link" href="{% url 'staffmodule' %}">
+           <i class="glyphicon glyphicon-certificate"></i>
+            <br/>Staff</a>
+            {% endif %}
+        </li>
+        </h4>
+        {% include 'blank.html' %}
+        
+        <h4>
+        <li class="nav-item active">
+          {% if perms.school.view_schoolmodule %} 
+          <a class="nav-link" href="{% url 'schoolmodule' %}">
+              <i class="glyphicon glyphicon-list"></i>
+              <br/>Schools</a>
+              {% endif %}
+        </li>
+        </h4>
+
+        {% include 'blank.html' %}
+        
+        <h4>
+        <li class="nav-item active">
+          {% if perms.qualification.view_qualificationmodule %} 
+          <a class="nav-link" href="{% url 'qualicationmodule' %}">
+              <i class="glyphicon glyphicon-education"></i>
+              <br/>Qualifications</a>
+              {% endif %}
+        </li>
+        </h4>
+
+        {% include 'blank.html' %}
+        <h4>
+        <li class="nav-item active">
+          {% if perms.staff.view_myprofile %} {% if user.is_active %}
+          <a class="nav-link" href="{% url 'myprofile' %}"><i class="glyphicon glyphicon-ruble"></i>
+            <br/>Profile</a>
+            {% endif %} {% endif %}
+        </li>
+        </h4>
+
+        {% include 'blank.html' %}
+        
+        <h4>
+        <li class="nav-item active">
+          {% if perms.account.view_usermodule %} 
+          <a class="nav-link" href="{% url 'user' %}">
+             <i class="glyphicon glyphicon-user"></i>
+              <br/>Users</a>   
+              {% endif %}
+        </li>
+        </h4>
+
+        {% include 'blank.html' %}
+        <h4>
+        <li class="nav-item active">
+          {% if perms.account.view_setupmodule %}
+          <a class="nav-link" href="{% url 'setup' %}">
+            <i class="glyphicon glyphicon-cog"></i>
+            <br/>Setup</a>
+            {% endif %}
+        </li>
+        </h4>
+    </ul>
+      {% endif %} 
+  </div>
+
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'changepassword' %}" class="btn btn-default"><i class="glyphicon glyphicon-lock"></i>Reset Password</a>
+    <a href="{% url 'userlogout' %}" class="btn btn-danger" onclick="return confirm('Logout of the System?')">
+    <i class="glyphicon glyphicon-user"></i>{{ user }} | Logout <i class="glyphicon glyphicon-log-out"></i></a>
+  {% else %}
+      
+  {% endif %}
+</nav>
