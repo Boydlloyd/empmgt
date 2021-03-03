@@ -231,17 +231,15 @@ def all_schools(request):
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename=StaffList.csv'
 		writer = csv.writer(response)
-		writer.writerow(['TS No.','FIRST NAME','LAST NAME','OTHER NAMES','GENDER','TITLE','NRC','CONTACT No.','EMAIL','DOB','FIRST APPOINTMENT','POSITION',
-			'ORGANIZATION', 'DISTRICT','PROVINCE','ADDRESS','STATUS','APPLICANT No.','ACTIVE','CYCLE','CREATEDBY','DATECREATED','REMARKS'])
+		writer.writerow(['CODE','NAME OF SCHOOL','SCHOOL ADDRESS','STAFF SIZE','DISTRICT','PROVINCE','DATECREATED','CREATEDBY'])
 		if pagecount>0:
 			for row in filteredrecords:
-				write_to_file(str(request.user)+"_downloads",str(request.user)+" Exported "+str(filteredrecords.count())+" Station Staff Record(s)",row.id)
-				writer.writerow([row.tsnumber,row.fname,row.lname,row.mname,row.gender,row.title,row.nrc,row.mobile,row.email,row.birth_date,row.first_appointment,row.position,
-                     row.school,row.isconfirmed,row.empnumber,row.status,row.district,row.province,row.qualifications,row.comment,row.is_updated,row.is_active,row.datecreated,row.author])
+				write_to_file(str(request.user)+"_downloads",str(request.user)+" Exported "+str(filteredrecords.count())+" School Record(s)",row.id)
+				writer.writerow([row.school_code,row.school_name,row.school_address,row.staffnumber,row.district,row.province,row.datecreated,row.author])
 			return response
 		else:
 			messages.error(request, "No Records to Export!")
-	context={"title":"All Schools "+str(boundary),"records":records,"schoolid":schoolid,"allschools":"active","counted":counted,"myFilter":myFilter,"form1":form}
+	context={"title":"All Schools "+str(boundary),"records":records,"schoolid":schoolid,"allschools":"active","counted":counted,"myFilter":myFilter,"form":form}
 	return render(request,'school/allschools.html',context)
 
 
