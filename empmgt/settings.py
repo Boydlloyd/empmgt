@@ -81,12 +81,25 @@ WSGI_APPLICATION = 'empmgt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+DATABASES2 = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'newemsdb.sqlite3'),
     }
 }
+
+#POSTGRESQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbvpfrl5su2n3e',
+        'USER': 'cebulptuwicccp',
+        'PASSWORD': 'cc606b44fb0e845573beaf310b8ef73bd4c9982f26e93e5494460089d1cd382d',
+        'HOST': 'ec2-34-198-31-223.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
+
 
 
 # Password validation
