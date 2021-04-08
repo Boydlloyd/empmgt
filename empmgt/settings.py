@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nfq567r1lyr+px77_$*6ecm5*p1(0&_(%8u-==3i8@-%xi4zqv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','safe-crag-62473.herokuapp.com','localhost']
 
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'empmgt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES2 = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'newemsdb.sqlite3'),
@@ -89,7 +89,7 @@ DATABASES2 = {
 }
 
 #POSTGRESQL
-DATABASES = {
+DATABASES2 = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbvpfrl5su2n3e',
